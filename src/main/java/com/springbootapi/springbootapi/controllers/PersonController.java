@@ -23,15 +23,11 @@ public class PersonController {
         this.personDao = personDao;
     }
 
-    @GetMapping("/people.json")
+    @GetMapping("/people")
     public List<Person> viewAllPeopleList(){
         return personDao.findAll();
     };
 
-    // @GetMapping("/person/{id}")
-    // public Person viewPersonById(@PathVariable Long id){
-    //     return personDao.getOne(3L);
-    // };
     @GetMapping("/person/{id}")
     public Person viewPersonById(@PathVariable Long id){
         List<Person> people = personDao.findAll();
@@ -43,5 +39,10 @@ public class PersonController {
         }
         return personById;
     };
+
+    @PostMapping("/people")
+    Person newPerson(@RequestBody Person newPerson) {
+        return personDao.save(newPerson);
+    }
     
 }
