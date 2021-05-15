@@ -3,6 +3,7 @@ package com.springbootapi.springbootapi.controllers;
 import com.springbootapi.springbootapi.models.Person;
 import com.springbootapi.springbootapi.repositories.PersonRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,22 @@ public class PersonController {
     @GetMapping("/people.json")
     public List<Person> viewAllPeopleList(){
         return personDao.findAll();
+    };
+
+    // @GetMapping("/person/{id}")
+    // public Person viewPersonById(@PathVariable Long id){
+    //     return personDao.getOne(3L);
+    // };
+    @GetMapping("/person/{id}")
+    public Person viewPersonById(@PathVariable Long id){
+        List<Person> people = personDao.findAll();
+        Person personById = null;
+        for(Person person : people){
+            if(person.getId() == id){
+                personById = person;
+            }
+        }
+        return personById;
     };
     
 }
