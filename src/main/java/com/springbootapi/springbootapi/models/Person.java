@@ -24,31 +24,39 @@ public class Person {
     @Column
     private Date dateUpdated;
 
+    @OneToOne
+    @JoinColumn(name = "job_id")
+    private Job job;
+
 
     public Person() {
     }
 
 
-    public Person(long id, String name, int age, Date dateJoined, Date dateUpdated) {
+    public Person(long id, String name, int age, Date dateJoined, Date dateUpdated, Job job) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.dateJoined = dateJoined;
         this.dateUpdated = dateUpdated;
+        this.job = job;
     }
 
-    public Person(String name, int age, Date dateJoined, Date dateUpdated) {
+
+    public Person(String name, int age, Date dateJoined, Date dateUpdated, Job job) {
         this.name = name;
         this.age = age;
         this.dateJoined = dateJoined;
         this.dateUpdated = dateUpdated;
+        this.job = job;
     }
 
-    public Person(long id, String name, int age, Date dateJoined) {
+    public Person(long id, String name, int age, Date dateJoined, Job job) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.dateJoined = dateJoined;
+        this.job = job;
     }
 
 
