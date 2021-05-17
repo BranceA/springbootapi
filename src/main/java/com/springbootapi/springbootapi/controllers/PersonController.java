@@ -5,6 +5,9 @@ import com.springbootapi.springbootapi.repositories.PersonRepository;
 
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +35,7 @@ public class PersonController {
     // curl -v http://localhost:8080/person/3
     @GetMapping("/person/{id}")
     public Person viewPersonById(@PathVariable Long id){
-        return findPersonById(id);
+        return personDao.findById(id).orElseThrow(() -> new EntityNotFoundException());
     };
 
     // curl -X POST localhost:8080/people -H 'Content-type:application/json' -d '{"name": "Dan Doe", "dateJoined": "2020-01-01", "dateUpdated": "2021-05-15", "age": 20}'
@@ -44,7 +47,7 @@ public class PersonController {
     // curl -X PUT localhost:8080/person/3 -H 'Content-type:application/json' -d '{"name": "William Doe", "dateJoined": "1920-01-01", "dateUpdated": "2021-05-15", "age": 98}'
     @PutMapping("/person/{id}")
     Person replacePerson(@RequestBody Person replacePerson, @PathVariable Long id){
-        Person person = findPersonById(id);
+        Person person = personDao.findById(id).orElseThrow(() -> new EntityNotFoundException());
         person.setName(replacePerson.getName());
         person.setAge(replacePerson.getAge());
         person.setDateJoined(replacePerson.dateDateType());
@@ -57,16 +60,4 @@ public class PersonController {
         void deletePerson(@PathVariable Long id) {
         personDao.deleteById(id);
     }
-
-    private Person findPersonById(Long id){
-        List<Person> people = personDao.findAll();
-        Person personById = null;
-        for(Person person : people){
-            if(person.getId() == id){
-                personById = person;
-            }
-        }
-        return personById;
-    }
-    
 }
