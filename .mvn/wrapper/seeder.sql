@@ -1,3 +1,4 @@
+TRUNCATE people;
 INSERT INTO people(age, date_joined, date_updated, name) 
 values(30, '2021-05-10', '2021-05-15', 'Bob Doe'),
 (45, '2021-05-02', '2021-05-15', 'Sally Doe'),
