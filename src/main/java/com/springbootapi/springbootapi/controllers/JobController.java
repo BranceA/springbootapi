@@ -44,4 +44,10 @@ public class JobController {
         job.setSalary(replaceJob.getSalary());
         return jobDao.save(job);
     }
+
+    // curl -X DELETE localhost:8080/job/5
+    @DeleteMapping("/job/{id}")
+    void deleteJob(@PathVariable Long id) {
+        jobDao.deleteById(id);
+    }
 }

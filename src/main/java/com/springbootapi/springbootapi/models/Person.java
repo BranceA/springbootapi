@@ -26,7 +26,7 @@ public class Person {
     @Column
     private Date dateUpdated;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "job_id")
     @JsonManagedReference
     private Job job;

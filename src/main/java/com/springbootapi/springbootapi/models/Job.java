@@ -17,7 +17,7 @@ public class Job {
     @Column
     private int salary;
 
-    @OneToOne(mappedBy = "job")
+    @OneToOne(mappedBy = "job", cascade = CascadeType.ALL)
     @JsonBackReference
     private Person person;
 
