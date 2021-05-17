@@ -2,6 +2,10 @@ package com.springbootapi.springbootapi.models;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+@Entity
+@Table(name = "jobs")
 public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,6 +18,7 @@ public class Job {
     private int salary;
 
     @OneToOne(mappedBy = "job")
+    @JsonBackReference
     private Person person;
 
 
@@ -57,6 +62,15 @@ public class Job {
 
     public void setSalary(int salary) {
         this.salary = salary;
+    }
+
+
+    public Person getPerson() {
+        return this.person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
 }

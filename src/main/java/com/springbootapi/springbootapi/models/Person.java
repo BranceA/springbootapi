@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "people")
 public class Person {
@@ -26,6 +28,7 @@ public class Person {
 
     @OneToOne
     @JoinColumn(name = "job_id")
+    @JsonManagedReference
     private Job job;
 
 
@@ -106,5 +109,13 @@ public class Person {
         this.dateUpdated = date;
     }
 
+
+    public Job getJob() {
+        return this.job;
+    }
+
+    public void setJob(Job job) {
+        this.job = job;
+    }
     
 }
