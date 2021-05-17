@@ -56,13 +56,6 @@ public class PersonController {
         return personDao.save(newPerson);
     };
 
-
-    // // curl -X POST localhost:8080/jobs -H 'Content-type:application/json' -d '{"jobTitle":"Code Tester","salary":3500}'
-    @PostMapping("/jobs")
-    Job newJob(@RequestBody Job newJob){
-        return jobDao.save(newJob);
-    }
-
     // curl -X PUT localhost:8080/person/3 -H 'Content-type:application/json' -d '{"name": "William Doe", "dateJoined": "1920-01-01", "dateUpdated": "2021-05-15", "age": 98}'
     @PutMapping("/person/{id}")
     Person replacePerson(@RequestBody Person replacePerson, @PathVariable Long id){
@@ -75,6 +68,7 @@ public class PersonController {
         return personDao.save(person);
     }
 
+    // curl -X DELETE localhost:8080/person/5
     @DeleteMapping("/person/{id}")
         void deletePerson(@PathVariable Long id) {
         personDao.deleteById(id);
