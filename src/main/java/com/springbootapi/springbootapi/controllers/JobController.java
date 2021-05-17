@@ -30,10 +30,18 @@ public class JobController {
         return jobDao.findById(id).orElseThrow(() -> new EntityNotFoundException());
     };
 
-
-    // curl -X POST localhost:8080/jobs -H 'Content-type:application/json' -d '{"jobTitle":"Code Tester","salary":3500}'
-    @PostMapping("/jobs")
+    // curl -X POST localhost:8080/job -H 'Content-type:application/json' -d '{"jobTitle":"Code Tester","salary":3500}'
+    @PostMapping("/job")
     Job newJob(@RequestBody Job newJob){
         return jobDao.save(newJob);
+    }
+
+    // curl -X PUT localhost:8080/job/3 -H 'Content-type:application/json' -d '{"jobTitle":"Batman", "salary":1000000}'
+    @PutMapping("/job/{id}")
+    Job replaceJob(@RequestBody Job replaceJob, @PathVariable Long id){
+        Job job = jobDao.findById(id).orElseThrow(() -> new EntityNotFoundException());
+        job.setJobTitle(replaceJob.getJobTitle());
+        job.setSalary(replaceJob.getSalary());
+        return jobDao.save(job);
     }
 }
