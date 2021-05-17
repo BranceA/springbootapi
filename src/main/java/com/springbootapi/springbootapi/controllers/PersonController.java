@@ -1,6 +1,8 @@
 package com.springbootapi.springbootapi.controllers;
 
 import com.springbootapi.springbootapi.models.Person;
+import com.springbootapi.springbootapi.models.Job;
+import com.springbootapi.springbootapi.repositories.JobRepository;
 import com.springbootapi.springbootapi.repositories.PersonRepository;
 
 import java.util.Date;
@@ -20,10 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class PersonController {
 
     private final PersonRepository personDao;
+    private final JobRepository jobDao;
 
 
-    public PersonController(PersonRepository personDao) {
+    public PersonController(PersonRepository personDao, JobRepository jobDao) {
         this.personDao = personDao;
+        this.jobDao = jobDao;
     }
 
     // curl -v http://localhost:8080/people
@@ -37,12 +41,27 @@ public class PersonController {
     public Person viewPersonById(@PathVariable Long id){
         return personDao.findById(id).orElseThrow(() -> new EntityNotFoundException());
     };
+    // "job":'{"jobTitle":"Code Tester","salary":3500}'
+    // curl -X POST localhost:8080/people/5 -H 'Content-type:application/json' -d '{"name": "Dan Doe", "dateJoined": "2020-01-01", "dateUpdated": "2021-05-15", "age": 20}'
+    @PostMapping("/people/{id}")
+    Person newPerson(@RequestBody Person newPerson, @PathVariable Long id) {
+        Job job = jobDao.findById(id).orElseThrow(() -> new EntityNotFoundException());
+        newPerson.setJob(job);
+        return personDao.save(newPerson);
+    };
 
-    // curl -X POST localhost:8080/people -H 'Content-type:application/json' -d '{"name": "Dan Doe", "dateJoined": "2020-01-01", "dateUpdated": "2021-05-15", "age": 20}'
+    // curl -X POST localhost:8080/people -H 'Content-type:application/json' -d '{"name": "Helen Doe", "dateJoined": "2018-11-22", "dateUpdated": "2020-05-15", "age": 88}'
     @PostMapping("/people")
     Person newPerson(@RequestBody Person newPerson) {
         return personDao.save(newPerson);
     };
+
+
+    // // curl -X POST localhost:8080/jobs -H 'Content-type:application/json' -d '{"jobTitle":"Code Tester","salary":3500}'
+    @PostMapping("/jobs")
+    Job newJob(@RequestBody Job newJob){
+        return jobDao.save(newJob);
+    }
 
     // curl -X PUT localhost:8080/person/3 -H 'Content-type:application/json' -d '{"name": "William Doe", "dateJoined": "1920-01-01", "dateUpdated": "2021-05-15", "age": 98}'
     @PutMapping("/person/{id}")
