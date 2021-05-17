@@ -3,10 +3,6 @@ package com.springbootapi.springbootapi.controllers;
 import com.springbootapi.springbootapi.models.Person;
 import com.springbootapi.springbootapi.repositories.PersonRepository;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -55,6 +51,11 @@ public class PersonController {
         Date date = new Date();
         person.setDateUpdated(date);
         return personDao.save(person);
+    }
+
+    @DeleteMapping("/person/{id}")
+        void deletePerson(@PathVariable Long id) {
+        personDao.deleteById(id);
     }
 
     private Person findPersonById(Long id){
