@@ -68,9 +68,14 @@ public class PersonController {
         return personDao.save(person);
     }
 
-    // curl -X PUT localhost:8080/person/6 -H 'Content-type:application/json' -d '{"jobTitle":"Actual Dragon","salary":250}'
+    // curl -X DELETE localhost:8080/person/5
+    @DeleteMapping("/person/{id}")
+        void deletePerson(@PathVariable Long id) {
+        personDao.deleteById(id);
+    }
+
     // curl -X PUT localhost:8080/test/6 -H 'Content-type:application/json' -d '{"jobTitle":"Actual Dragon","salary":250}'
-    @PutMapping("/test/{id}")
+    @PutMapping("/addJob/{id}")
     Person updateJob(@RequestBody Job job, @PathVariable Long id){
         Person person = personDao.findById(id).orElseThrow(() -> new EntityNotFoundException());
         Job jobWithId = jobDao.save(job);
@@ -78,11 +83,5 @@ public class PersonController {
         Date date = new Date();
         person.setDateUpdated(date);
         return personDao.save(person);
-    }
-
-    // curl -X DELETE localhost:8080/person/5
-    @DeleteMapping("/person/{id}")
-        void deletePerson(@PathVariable Long id) {
-        personDao.deleteById(id);
     }
 }
