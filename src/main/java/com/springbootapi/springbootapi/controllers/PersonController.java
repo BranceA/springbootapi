@@ -87,7 +87,7 @@ public class PersonController {
     }
 
     // For adding a new job to an existing person. Include person id in the URL and send job object in the request.
-    // curl -X PUT localhost:8080/test/6 -H 'Content-type:application/json' -d '{"jobTitle":"Actual Dragon","salary":250}'
+    // curl -X PUT localhost:8080/addJob/6 -H 'Content-type:application/json' -d '{"jobTitle":"Actual Dragon","salary":250}'
     @PutMapping("/addJob/{id}")
     Person updateJob(@RequestBody Job job, @PathVariable Long id){
         Person person = personDao.findById(id).orElseThrow(() -> new EntityNotFoundException());
