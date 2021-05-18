@@ -30,6 +30,7 @@ public class PersonController {
         this.jobDao = jobDao;
     }
 
+    // Returns array of all people.
     // curl -v http://localhost:8080/person
     @GetMapping("/person")
     public List<Person> viewAllPeopleList(){
@@ -44,18 +45,24 @@ public class PersonController {
     };
 
     // Include job Id in URL and include person object in request to create a new person and give it an existing job
-    // curl -X POST localhost:8080/person/5 -H 'Content-type:application/json' -d '{"name": "Dan Doe", "dateJoined": "2020-01-01", "dateUpdated": "2021-05-15", "age": 20}'
+    // curl -X POST localhost:8080/person/5 -H 'Content-type:application/json' -d '{"name": "Dan Doe", "age": 20}'
     @PostMapping("/person/{id}")
     Person newPerson(@RequestBody Person newPerson, @PathVariable Long id) {
         Job job = jobDao.findById(id).orElseThrow(() -> new EntityNotFoundException());
         newPerson.setJob(job);
+        Date date = new Date();
+        newPerson.setDateUpdated(date);
+        newPerson.setDateJoined(date);
         return personDao.save(newPerson);
     };
 
     // For creating a new person with no job. Job will be null in database
-    // curl -X POST localhost:8080/person -H 'Content-type:application/json' -d '{"name": "Helen Doe", "dateJoined": "2018-11-22", "dateUpdated": "2020-05-15", "age": 88}'
+    // curl -X POST localhost:8080/person -H 'Content-type:application/json' -d '{"name": "Helen Doe", "age": 88}'
     @PostMapping("/person")
     Person newPerson(@RequestBody Person newPerson) {
+        Date date = new Date();
+        newPerson.setDateUpdated(date);
+        newPerson.setDateJoined(date);
         return personDao.save(newPerson);
     };
 
